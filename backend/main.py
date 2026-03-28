@@ -59,32 +59,20 @@ def stats():
 @app.post("/evaluate")
 async def evaluate(req: EvalRequest):
     try:
-        # Run quality evaluation
         result = evaluate_response(req.prompt, req.response, req.reference)
         if not result:
             raise HTTPException(status_code=500, detail="Evaluation failed")
 
-        # Run semantic similarity if reference provided
-       # Run semantic similarity if reference provided
-semantic_similarity = 0.0
-if req.reference:
-    try:
-        semantic_similarity = compute_semantic_similarity(
-            req.response, req.reference
-        )
-    except Exception as e:
-        print(f"Similarity skipped: {e}")
-        semantic_similarity = 0.0
+        result["semantic_similarity"] = 0.0
+        result["prompt"] = req.prompt
+        result["response"] = req.response
+        result["reference"] = req.reference
 
-        # Save to database
         save_evaluation(result)
-
         return result
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
-
-
 @app.post("/safety")
 async def safety(req: SafetyRequest):
     try:
@@ -97,50 +85,26 @@ async def safety(req: SafetyRequest):
 @app.post("/batch")
 async def batch_evaluate(req: BatchRequest):
     try:
-        # Run evaluations concurrently
         tasks = [
-            evaluate_response_async(
-                item.prompt,
-                item.response,
-                item.reference
-            )
+            evaluate_response_async(item.prompt, item.response, item.reference)
             for item in req.items
         ]
         results = await asyncio.gather(*tasks)
 
-        # Compute semantic similarities in batch
-        pairs = [
-            (item.response, item.reference)
-            for item in req.items
-            if item.reference
-        ]
-        similarities = compute_batch_similarities(pairs) if pairs else []
-        sim_index = 0
-
         final_results = []
-        for i, (item, result) in enumerate(zip(req.items, results)):
+        for item, result in zip(req.items, results):
             if result:
-                if item.reference:
-                    result["semantic_similarity"] = similarities[sim_index]
-                    sim_index += 1
-                else:
-                    result["semantic_similarity"] = 0.0
-
+                result["semantic_similarity"] = 0.0
                 result["prompt"] = item.prompt
                 result["response"] = item.response
                 result["reference"] = item.reference
                 save_evaluation(result)
                 final_results.append(result)
 
-        return {
-            "total": len(final_results),
-            "results": final_results
-        }
+        return {"total": len(final_results), "results": final_results}
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
-
-
 @app.post("/redteam")
 async def redteam(req: RedTeamRequest):
     try:
@@ -170,4 +134,3 @@ def clear_history():
     conn.commit()
     conn.close()
     return {"message": "History cleared"}
-
