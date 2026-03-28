@@ -1,0 +1,15 @@
+# Python
+nodeval-env/
+__pycache__/
+*.pyc
+*.pyo
+*.db
+.env
+
+# Node
+frontend/node_modules/
+frontend/dist/
+
+# OS
+.DS_Store
+Thumbs.db
