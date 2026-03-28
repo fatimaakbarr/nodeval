@@ -65,16 +65,16 @@ async def evaluate(req: EvalRequest):
             raise HTTPException(status_code=500, detail="Evaluation failed")
 
         # Run semantic similarity if reference provided
+       # Run semantic similarity if reference provided
+semantic_similarity = 0.0
+if req.reference:
+    try:
+        semantic_similarity = compute_semantic_similarity(
+            req.response, req.reference
+        )
+    except Exception as e:
+        print(f"Similarity skipped: {e}")
         semantic_similarity = 0.0
-        if req.reference:
-            semantic_similarity = compute_semantic_similarity(
-                req.response, req.reference
-            )
-
-        result["semantic_similarity"] = semantic_similarity
-        result["prompt"] = req.prompt
-        result["response"] = req.response
-        result["reference"] = req.reference
 
         # Save to database
         save_evaluation(result)
