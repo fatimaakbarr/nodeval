@@ -3,6 +3,8 @@ uvicorn
 groq
 python-dotenv
 pydantic
-sentence-transformers
 numpy
 scikit-learn
+sentence-transformers
+--extra-index-url https://download.pytorch.org/whl/cpu
+torch==2.1.0+cpu
