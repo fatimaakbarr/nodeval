@@ -71,7 +71,7 @@ export default function App() {
       </div>
 
       {/* Main */}
-      <main className="flex-1 overflow-y-auto relative z-10">
+      <main className="flex-1 overflow-y-auto relative z-10 pt-16 md:pt-0">
         <AnimatePresence mode="wait">
           <motion.div
             key={activePage}
