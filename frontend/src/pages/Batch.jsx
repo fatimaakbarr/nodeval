@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import axios from 'axios'
 import ScoreBar from '../components/ScoreBar'
 
-const API = 'https://nodeval-production-4f36.up.railway.app'
+const API = 'https://nodeval-production-ab38.up.railway.app'
 const EXAMPLE = `What is the capital of France? | The capital of France is Paris.
 How do I reset my password? | Click forgot password on the login page.
 I feel really sad today. | Get over it, everyone feels sad sometimes.
