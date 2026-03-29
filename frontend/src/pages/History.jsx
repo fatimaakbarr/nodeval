@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import axios from 'axios'
 import { LineChart, Line, BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts'
 
-const API = 'https://nodeval-production-ab38.up.railway.app'
+const API = import.meta.env.VITE_API_URL
 const VERDICT_COLORS = { PASS: '#00d2ff', WARNING: '#fbbf24', FAIL: '#ff6e84' }
 const DIM_COLORS = ['#aca3ff','#00d2ff','#e69dff','#ff6e84','#fbbf24']
 
