@@ -4,7 +4,7 @@ import axios from 'axios'
 import MetricCard from '../components/MetricCard'
 import ScoreBar from '../components/ScoreBar'
 
-const API = 'http://127.0.0.1:8000'
+const API = 'https://nodeval-production-4f36.up.railway.app'
 
 const stagger = {
   container: { animate: { transition: { staggerChildren: 0.08 } } },
