@@ -17,7 +17,12 @@ app = FastAPI(title="Nodeval API", version="2.0.0")
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173"],
+    allow_origins=[
+    "http://localhost:5173",
+    "https://nodeval-eosin.vercel.app",
+    "https://nodeval-fatimaakbarrs-projects.vercel.app",
+    "https://nodeval-git-main-fatimaakbarrs-projects.vercel.app",
+],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
